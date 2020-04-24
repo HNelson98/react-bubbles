@@ -10,7 +10,7 @@ const initialColor = {
 const ColorList = ({ colors, updateColors }) => {
   console.log(colors);
  
-  const { go } = useHistory();
+  const { push } = useHistory();
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
   
@@ -29,9 +29,9 @@ const ColorList = ({ colors, updateColors }) => {
    .then(res => {
      console.log('put', res.data)
      const newColors = colors.filter(value => value !== res.data)
-     
      updateColors(newColors)
-    go(0)
+     push('/')
+     push('/bubbles')
     })
    .catch(err => console.log('Edit Error', err))
   };
@@ -43,8 +43,9 @@ const ColorList = ({ colors, updateColors }) => {
     .then(res => {
       const newColors = colors.filter(value => value !== res.data)
          updateColors(newColors)
-         go(0)
-         
+      push('/')
+      push('/bubbles')
+             
     })
     .catch(err => console.log('Delete Error', err))
   };
