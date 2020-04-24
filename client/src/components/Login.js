@@ -1,14 +1,41 @@
 import React from "react";
 
-const Login = () => {
-  // make a post request to retrieve a token from the api
-  // when you have handled the token, navigate to the BubblePage route
-  return (
-    <>
-      <h1>Welcome to the Bubble App!</h1>
-      <p>Build a login page here</p>
-    </>
-  );
+class Login extends React.Component {
+
+  state = {
+    credentials: {
+      username: "",
+      password: "",
+    }
+  }
+
+
+  render() {
+    return (
+      <>
+        <h1>Welcome to the Bubble App!</h1>
+        <div className='formDiv'>
+          <br/>
+          <label htmlFor='username' name='username' >Username*</label>
+          <form>
+            <input
+              type='text'
+              name='username'
+              value={this.state.credentials.username}
+            />
+            <br />
+            <label htmlFor='password' name='password' >Password*</label>
+            <br />
+            <input
+            type= 'password'
+            name= 'password'
+            value={this.state.credentials.password}
+            />
+          </form>
+        </div>
+      </>
+    );
+  }
 };
 
 export default Login;
