@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { axiosWithAuth } from "../utills/axiosWithAuth";
-import { useParams } from "react-router-dom";
+import { useHistory} from "react-router-dom";
 
 const initialColor = {
   color: "",
@@ -10,24 +10,29 @@ const initialColor = {
 const ColorList = ({ colors, updateColors }) => {
   console.log(colors);
  
+  const { go } = useHistory();
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
-  const {id} = useParams
+  
   
 
   const editColor = color => {
     setEditing(true);
     setColorToEdit(color);
   };
+  console.log('color',colorToEdit)
 
   const saveEdit = e => {
     e.preventDefault();
    axiosWithAuth()
-   .put(`/api/colors/${colorToEdit}`, colorToEdit)
+   .put(`/api/colors/${colorToEdit.id}`, colorToEdit )
    .then(res => {
-     console.log(res.data)
-    const newColors = colors.filter(value => res.data)
-  updateColors(newColors)})
+     console.log('put', res.data)
+     const newColors = colors.filter(value => value !== res.data)
+     
+     updateColors(newColors)
+    go(0)
+    })
    .catch(err => console.log('Edit Error', err))
   };
 
@@ -38,6 +43,8 @@ const ColorList = ({ colors, updateColors }) => {
     .then(res => {
       const newColors = colors.filter(value => value !== res.data)
          updateColors(newColors)
+         go(0)
+         
     })
     .catch(err => console.log('Delete Error', err))
   };
